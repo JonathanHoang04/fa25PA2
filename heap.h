@@ -15,6 +15,14 @@ struct MinHeap {
     MinHeap() { size = 0; }
 
     void push(int idx, int weightArr[]) {
+        //Overflow Condition
+        //Since max size is 64
+        if (size >= 64) {
+            cout <<endl;
+            cout << "Heap Overflow! No more elements.";
+            cout << endl;
+            return;
+        }
 
         //Places new index at the end of the heap
         data[size] = idx;
@@ -29,8 +37,12 @@ struct MinHeap {
 
     int pop(int weightArr[]) {
 
+        //Underflow Condition
+        //If the heap is empty
         if (size ==0) {
-            return 0; //If the heap is empty
+            cout << endl;
+            cout << "Heap Underflow! There is no index in the heap";
+            return 0;
         }
 
         // Replace root with last element, then call downheap()
@@ -45,25 +57,40 @@ struct MinHeap {
         //Gives the user lowest index from heap
         return minimumIdx;
 
-
-
-        return -1; // placeholder
     }
 
+    //Called After inserting a new index
     void upheap(int pos, int weightArr[]) {
-        // TODO: swap child upward while smaller than parent
+        // swap child upward while smaller than parent
+
+        //Parent Index
+        int parent = (pos - 1)/2;
+
+        //Base Case stop if when @ root
+        if (pos == 0) {
+            return;
+        }
+
+        //IF The noded just added (pos) < parent then swap and recursion
+        if (weightArr[data[pos]] < weightArr[data[parent]]) {
+            //Swap pos and parent
+            swap(data[pos], data[parent]);
+            //Recursion call to upheap to ensure the new parent(pos) follows minheap
+            upheap(parent, weightArr);
+        }
+
+
 
 
     }
 
+    //After Removal in the Heap
     void downheap(int pos, int weightArr[]) {
-        // TODO: swap parent downward while larger than any child
 
-        //Continue Looping until the heap property is restored
-        while (true) {
-            int left = 2 * (pos+1); //Left
-            int right = 2*(pos+2); // Right
-            int i = pos; //The current Parent
+            int left = 2 * pos + 1; //Left
+            int right = 2 * pos + 2; // Right
+            int i = pos; //The current pos or small it is looking at while comparing
+
 
 
             //Compare With left Child First
@@ -79,19 +106,18 @@ struct MinHeap {
                 i = right;
             }
 
+        //IF the smallest has changed to left or right child
             if (i != pos) {
                 //Swap with the Parent with the smaller child
                 swap(data[pos], data[i]);
 
-                //Make the "old" smallest to the child's position
-                pos = i;
-
-            }
-            else
-            {
-                break; //The base condtion if the child is smaller than stop the loop
-            }
+                //continue the downheap recursively
+                downheap(i, weightArr);
+                }
+        else {
+            return; //Base Case if there is no child is smaller and stop recursion
         }
+    }
 };
 
 #endif
