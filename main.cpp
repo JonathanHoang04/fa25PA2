@@ -126,10 +126,57 @@ int buildEncodingTree(int nextFree) {
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
     // TODO:
+    //if heap is empty
+    if (root == -1) {
+        cout << "Empty Heap - no tree to generate codes." << endl;
+        return;
+    }
+
     // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
+
+    //Element -> (node index, current binary code)
+    stack<pair<int, string>> codesStack;
+    codesStack.push({root, ""});
+    //Loop until all nodes are processed
+    while (!codesStack.empty()) {
+        //Get the top element
+        pair<int, string> current = codesStack.top();
+        codesStack.pop();
+
+        //node index
+        int node = current.first;
+
+        //Current binary code path
+        string code = current.second;
+
+    //If the leaf node -> record the code
+        if (leftArr[node] == -1 && rightArr[node] == -1) {
+            if (charArr[node] >= 'a' && charArr[node] <= 'z') {
+                codes[charArr[node] - 'a'] = code;
+            }
+        }
+        else
+            {
+            //Transvering Right and Left Children
+            // Left edge adds '0', right edge adds '1'.
+
+            //Allows right -> left to processed first
+            //Right edge adds '1'
+            if (rightArr[node] != -1) {
+                codesStack.push(make_pair(rightArr[node], code + "1"));
+            }
+
+            //Left edge adds '0'
+            if (leftArr[node] != -1) {
+                codesStack.push(make_pair(leftArr[node], code + "0"));
+            }
+        }
+    }
+
 }
+
+
+
 
 // Step 5: Print table and encoded message
 void encodeMessage(const string& filename, string codes[]) {
