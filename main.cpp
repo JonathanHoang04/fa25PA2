@@ -102,7 +102,7 @@ int buildEncodingTree(int nextFree) {
     // 3. While the heap size is greater than 1:
     while (mHeap.size > 1) {
 
-        //    - Pop two smallest nodes( Either Left or Right)
+        //   Pop two smallest nodes( Either Left or Right)
         int left = mHeap.pop(weightArr);
         int right = mHeap.pop(weightArr);
 
@@ -125,10 +125,10 @@ int buildEncodingTree(int nextFree) {
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
-    // TODO:
-    //if heap is empty
+
+    //if heap/input.txt is empty
     if (root == -1) {
-        cout << "Empty Heap - no tree to generate codes." << endl;
+        cout << "Empty Heap -> no tree to generate codes." << endl;
         return;
     }
 
@@ -136,11 +136,16 @@ void generateCodes(int root, string codes[]) {
 
     //Element -> (node index, current binary code)
     stack<pair<int, string>> codesStack;
+    //Push the root node with an empty string
     codesStack.push({root, ""});
+
     //Loop until all nodes are processed
+    //When the stack is not empty
     while (!codesStack.empty()) {
-        //Get the top element
+
+        //Get the top element and make it curr
         pair<int, string> current = codesStack.top();
+        //pop the stack
         codesStack.pop();
 
         //node index

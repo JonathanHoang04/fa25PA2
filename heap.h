@@ -19,7 +19,7 @@ struct MinHeap {
         //Since max size is 64
         if (size >= 64) {
             cout <<endl;
-            cout << "Heap Overflow! No more elements.";
+            cout << "Heap Overflow! No more Letters/Elements.";
             cout << endl;
             return;
         }
@@ -27,7 +27,7 @@ struct MinHeap {
         //Places new index at the end of the heap
         data[size] = idx;
 
-        // Restore heap property
+        // Restore minheap
         upheap(size, weightArr);
 
         //Increase size of heap
@@ -71,7 +71,7 @@ struct MinHeap {
             return;
         }
 
-        //IF The noded just added (pos) < parent then swap and recursion
+        //IF The node just added (pos) < parent then swap and recursion
         if (weightArr[data[pos]] < weightArr[data[parent]]) {
             //Swap pos and parent
             swap(data[pos], data[parent]);
